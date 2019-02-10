@@ -49,10 +49,7 @@ def runjenkinsfile(){
                     echo "Apiversion Number is {$apiversion}"
 
                     // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
-                        withCredentials([usernamePassword(credentialsId: machine-user, passwordVariable: 'password', usernameVariable: 'username')]) {
-                            sh("./bundle.sh ${props.build.proxy} ${workspaceDirectory} ${proxyName} ${buildType}")
-                        }
-
+                    sh("./bundle.sh ${props.build.proxy} ${workspaceDirectory} ${proxyName} ${buildType}")
                 }
 
             }
