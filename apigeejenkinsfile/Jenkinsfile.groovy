@@ -63,7 +63,5 @@ def runjenkinsfile(){
             }
         }
     } //END NODE
-
-return this;
-
 }
+return this;
