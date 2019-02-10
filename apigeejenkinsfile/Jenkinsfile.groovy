@@ -7,7 +7,7 @@ def email = ''
 
 def runjenkinsfile(){
 
-    node('apigee-build') {
+    node('any') {
         timestamps {
             cleanWs notFailBuild: true
             def yamlPath = "${pwd()}/project.yaml"
