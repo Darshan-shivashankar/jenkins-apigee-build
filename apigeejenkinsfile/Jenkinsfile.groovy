@@ -3,7 +3,6 @@ import groovy.json.JsonOutput
 import groovy.json.JsonBuilder
 
 def props = [:]
-def email = ''
 
 def runjenkinsfile(){
 
