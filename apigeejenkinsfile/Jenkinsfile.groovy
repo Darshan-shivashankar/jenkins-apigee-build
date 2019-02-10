@@ -7,7 +7,7 @@ def email = ''
 
 def runjenkinsfile(){
 
-    node('any') {
+    node {
         timestamps {
             cleanWs notFailBuild: true
             def yamlPath = "${pwd()}/project.yaml"
