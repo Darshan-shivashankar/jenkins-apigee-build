@@ -20,6 +20,8 @@ def runjenkinsfile(){
             props = readYaml file: 'project.yaml'
             proxyName = props.build.name
             buildType = props.build.type
+            def gitCred =  'cdc64b8b-f85a-4a29-8b36-6926d19f7473'
+            def gitCloneURL = 'https://github.com/Darshan-shivashankar/jenkins-apigee-build.git'
             def buildVersion = props.build.buildVersion
             def apiversion = "${buildVersion}.${env.BUILD_NUMBER}"
             def workspaceDirectory = "${env.WORKSPACE}"
@@ -45,9 +47,12 @@ def runjenkinsfile(){
                     echo "Build Number is ${env.BUILD_NUMBER}"
                     echo "Build Version is $buildVersion"
                     echo "Apiversion Number is {$apiversion}"
-
-                    // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
-                    sh("bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
+                    
+                    dir('Build') {
+                        git branch: 'master', credentialsId: gitCred, poll: false, url: gitCloneURL
+                        // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
+                        sh("bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
+                    }
                 }
 
             }
