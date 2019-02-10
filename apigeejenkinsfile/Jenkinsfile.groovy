@@ -8,7 +8,7 @@ def runjenkinsfile(){
 
     node {
         timestamps {
-            cleanWs notFailBuild: true
+            //cleanWs notFailBuild: true
             def yamlPath = "${pwd()}/project.yaml"
 
             //checkout the project
