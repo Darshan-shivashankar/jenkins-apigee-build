@@ -5,7 +5,7 @@ set -e
 autopath=`pwd`
 
 workspace=$1
-proxyName=$2
+projectName=$2
 type=$3
 sharedflowPomPath=$1/src/sharedflows/$2
 proxyPomPath=$1/src/gateway/$2
@@ -16,7 +16,7 @@ buildSharedFlow(){
 	mvn clean -X -f $sharedflowPomPath/pom.xml
 
 	cd $autopath
-	echo "Bundling SharedFlow:" $proxyName
+	echo "Bundling SharedFlow:" $projectName
 	mvn package -X -f $sharedflowPomPath/pom.xml -Ptest
 }
 
@@ -26,7 +26,7 @@ buildProxy(){
 	mvn clean -X -f $sharedflowPomPath/pom.xml
 
 	cd $autopath
-	echo "Bundling Proxy:" $proxyName
+	echo "Bundling Proxy:" $projectName
 	mvn package -X -f $proxyPomPath/pom.xml -Ptest
 }
 
