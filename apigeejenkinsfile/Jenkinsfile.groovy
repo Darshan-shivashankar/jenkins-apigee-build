@@ -8,10 +8,8 @@ def runjenkinsfile(){
 
     node {
         timestamps {
-            echo "Inside Jenkinsfile for Apigee"
             cleanWs notFailBuild: true
             def yamlPath = "${pwd()}/project.yaml"
-
             //checkout the project
             checkout scm
 
@@ -20,7 +18,7 @@ def runjenkinsfile(){
 
             // read project.yaml to setup def variable and tools
             props = readYaml file: 'project.yaml'
-            projectName = props.build.name
+            proxyName = props.build.name
             buildType = props.build.type
             def buildVersion = props.build.buildVersion
             def apiversion = "${buildVersion}.${env.BUILD_NUMBER}"
@@ -28,7 +26,7 @@ def runjenkinsfile(){
             def jobName = "${env.JOB_NAME}"
             def gitBranch = "${env.BRANCH_NAME}"
             def gitRepo = env.JOB_NAME.split('/')[0]
-            def proxyName = env.JOB_NAME.split('/')[0].split('-')[1]
+            def projectName = env.JOB_NAME.split('/')[0].split('-')[1]
             def mavenHome = tool name: "Maven339", type: 'maven'
 
             // Start Jenkins Build Process
@@ -49,7 +47,7 @@ def runjenkinsfile(){
                     echo "Apiversion Number is {$apiversion}"
 
                     // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
-                    sh("./bundle.sh ${props.build.proxy} ${workspaceDirectory} ${proxyName} ${buildType}")
+                    sh("bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
                 }
 
             }
