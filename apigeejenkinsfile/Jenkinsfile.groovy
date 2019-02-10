@@ -8,7 +8,8 @@ def runjenkinsfile(){
 
     node {
         timestamps {
-            //cleanWs notFailBuild: true
+            echo "Inside Jenkinsfile for Apigee"
+            cleanWs notFailBuild: true
             def yamlPath = "${pwd()}/project.yaml"
 
             //checkout the project
