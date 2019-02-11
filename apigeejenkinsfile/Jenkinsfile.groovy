@@ -30,8 +30,8 @@ def runjenkinsfile(){
             def gitBranch = "${env.BRANCH_NAME}"
             def gitRepo = env.JOB_NAME.split('/')[0]
             def projectName = env.JOB_NAME.split('/')[0].split('-')[1]
-            def artifactoryURLForSharedFlow = http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/
-            def artifactoryURLForProxy = http://demo.itorix.com:8081/artifactory/apigee-proxy-build/
+            def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/'
+            def artifactoryURLForProxy = 'http://demo.itorix.com:8081/artifactory/apigee-proxy-build/'
             def artifactoryCred =  '55152e81-eebf-4ce8-83a2-ef6b5f7666d5'
             def mavenHome = tool name: "Maven339", type: 'maven'
 
