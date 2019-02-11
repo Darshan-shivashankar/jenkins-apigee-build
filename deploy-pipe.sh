@@ -23,27 +23,25 @@ apigeePassword=${14}
 sharedflowPomPath=$9/src/sharedflows/$4
 proxyPomPath=$9/src/gateway/$4
 
-function downloadSharedFlowFile()  {
+function downloadSharedFlowFile(){
 
-  cd $sharedflowPomPath/target
-	rm -rf "$application-$version.zip"
-
-	echo "downloading the latest $application-$version bundle from Artifactory"
-	echo "download link - $artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
-	download=`wget "$artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
-
-	chmod 755 "$application-$version.zip"
+cd $sharedflowPomPath/target
+rm -rf "$application-$version.zip"
+echo "downloading the latest $application-$version bundle from Artifactory"
+echo "download link - $artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
+curl -u $artifactoryUser:$artifactoryPassword -O "$artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
+chmod 755 "$application-$version.zip"
 
 }
 
-function downloadProxyFile()  {
+function downloadProxyFile(){
 
 	cd $proxyPomPath/target
 	rm -rf "$application-$version.zip"
 
 	echo "downloading the latest $application-$version bundle from Artifactory"
 	echo "download link - $artifactoryURLForProxy/$application-$version/$buildNumber/$application-$version.zip"
-	download=`wget "$artifactoryURLForProxy/$application-$version/$buildNumber/$application-$version.zip"
+	curl -u $artifactoryUser:$artifactoryPassword -O "$artifactoryURLForProxy/$application-$version/$buildNumber/$application-$version.zip"
 
 	chmod 755 "$application-$version.zip"
 
