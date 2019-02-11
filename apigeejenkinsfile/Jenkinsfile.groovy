@@ -122,6 +122,10 @@ def deployProxy(props) {
       for (def deployenv: allDeployEnvs) {
         echo "BRANCH_NAME ${deployenv.branch}"
       }
+    }catch (e) {
+     //If there was an exception thrown, the Deploy failed
+     currentBuild.result = "FAILED"
+     throw e
     }
 
   }
