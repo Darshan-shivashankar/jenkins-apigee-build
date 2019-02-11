@@ -23,8 +23,8 @@ def runjenkinsfile(){
             def gitURL = 'https://github.com/Darshan-shivashankar'
             def gitCred =  'cdc64b8b-f85a-4a29-8b36-6926d19f7473'
             def gitCloneURL = 'https://github.com/Darshan-shivashankar/jenkins-apigee-build.git'
-            def buildVersion = props.build.version
-            def apiversion = "Jenkins Build Number ${buildVersion}.${env.BUILD_NUMBER}"
+            def version = props.build.version
+            def apiversion = "Jenkins Build Number ${proxyName}.${version}.${env.BUILD_NUMBER}"
             def workspaceDirectory = "${env.WORKSPACE}"
             def jobName = "${env.JOB_NAME}"
             def gitBranch = "${env.BRANCH_NAME}"
@@ -50,7 +50,7 @@ def runjenkinsfile(){
 
                     // echo out the projects: Build number, Build Version and Apiversion Number
                     echo "Build Number is ${env.BUILD_NUMBER}"
-                    echo "Build Version is $buildVersion"
+                    echo "Build Version is $version"
                     echo "Apiversion Number is {$apiversion}"
 
                     dir('Build') {
@@ -80,14 +80,14 @@ def runjenkinsfile(){
 
                     // echo out the projects: Build number, Build Version and Apiversion Number
                     echo "Build Number is ${env.BUILD_NUMBER}"
-                    echo "Build Version is $buildVersion"
+                    echo "Build Version is $version"
                     echo "Apiversion Number is $apiversion"
 
                     //Publish to artifactory
 
                     withCredentials([usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')]) {
-                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion} ${env.BUILD_NUMBER}")
-                      //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion}")
+                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${version} ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${env.BUILD_NUMBER}")
+                      //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${version}")
                     }
                 }
 

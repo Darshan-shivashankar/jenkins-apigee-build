@@ -34,6 +34,10 @@ main(){
 	echo "Type is missing in the project.yaml"
 }
 
+response(){
+	echo "Build stage is complete"
+}
+
 if [[ $type == "sharedflow" ]]
 	then
 		buildSharedFlow
@@ -48,5 +52,5 @@ if [[ $projectName != "" ]]
 	then
 		main
 else
-	main
+	response
 fi

@@ -4,24 +4,34 @@ set -e
 
 autopath=`pwd`
 
-workspaceDirectory=$1
-projectName=$2
-buildType=$3
-apiversion=$4
-artifactoryURLForSharedFlow=$5
-artifactoryURLForProxy=$6
-username=$7
-password=$8
-buildVersion=$9
+version=$1
+workspaceDirectory=$2
+projectName=$3
+buildType=$4
+apiversion=$5
+artifactoryURLForSharedFlow=$6
+artifactoryURLForProxy=$7
+username=$8
+password=$9
 buildNumber=$10
+
+echo "$workspaceDirectory"
+echo "$projectName"
+echo "$buildType"
+echo "$apiversion"
+echo "$artifactoryURLForSharedFlow"
+echo "$artifactoryURLForProxy"
+echo "$username"
+echo "$version"
+echo "$buildNumber"
 
 sharedflowTargetPath=$workspaceDirectory/src/sharedflows/$projectName
 proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
 uploadSharedFlow(){
-echo "************Deploying sharedflow to Artifactory:" $projectName"-"$buildVersion
-curl -u$username:$password -T $sharedflowTargetPath/target/$projectName"-"$buildVersion".zip" "$artifactoryURLForSharedFlow/$proxyName-$buildVersion/$buildNumber"
-echo "************Deployed successfully to artifactory:" $proxyName-$buildVersion"-"$apiversion
+echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
+curl -u$username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "$artifactoryURLForSharedFlow/$proxyName-$version/$buildNumber"
+echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
 }
 
 uploadProxy(){
