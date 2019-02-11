@@ -164,7 +164,7 @@ def runjenkinsfile() {
 
                     // call the script deploy-pipe.sh which will download from artifactory and deploy the proxy files to the Apigee Host. Note artifactory URL and Host URL is set in the script.
                     withCredentials([
-                      usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')
+                      usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username'),
                       usernamePassword(credentialsId: apigeeCred, passwordVariable: 'apigeepassword', usernameVariable: 'apigeeusername')
                       ]){
                       sh("chmod a+x Build/deploy-pipe.sh;cd Build;./deploy-pipe.sh ${apigeeHost} ${apigeeOrg} ${apigeeEnvironment} ${apigeeProxy} ${version} ${username} ${password} ${artifactoryNumber} ${workspaceDirectory} ${buildType} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${apigeeusername} ${apigeepassword}")
