@@ -130,7 +130,6 @@ def deployProxy(props) {
     }
 
    }
-  }
 
  } catch (e) {
   //If there was an exception thrown, the Deploy failed
