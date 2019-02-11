@@ -42,3 +42,11 @@ elif [[ $type == "proxy" ]]
 			buildProxy
 else
 	main
+fi
+
+if [[ $projectName != "" ]]
+	then
+		main
+else
+	main
+fi
