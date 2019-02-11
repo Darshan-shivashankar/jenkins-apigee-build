@@ -19,7 +19,7 @@ sharedflowTargetPath=$workspaceDirectory/src/sharedflows/$projectName
 proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
 uploadSharedFlow(){
-echo "************Build Number :"$artifactoryNumber
+echo "************Build Number :"$10
 echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
 curl -X PUT -u admin:password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
 echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
