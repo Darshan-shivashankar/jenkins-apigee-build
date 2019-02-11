@@ -121,6 +121,10 @@ def deployProxy(props) {
       // For loop to go through Environments to Deploy
       for (def deployenv: allDeployEnvs) {
         echo "BRANCH_NAME ${deployenv.branch}"
+        if(deployenv.branch == gitBranch){
+          echo "${deployenv}"
+        }
+
       }
     }catch (e) {
      //If there was an exception thrown, the Deploy failed
