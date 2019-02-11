@@ -20,14 +20,14 @@ proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 uploadSharedFlow(){
 echo "************ Jenkins Build Number :"$artifactoryNumber
 echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
-curl -X PUT -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
+curl -X PUT -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "$artifactoryURLForSharedFlow/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
 echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
 }
 
 uploadProxyFlow(){
-echo "************Build Number :"$artifactoryNumber
+echo "************ Jenkins Build Number :"$artifactoryNumber
 echo "************Deploying Proxy to Artifactory:" $projectName"-"$version
-curl -sk -u admin:password -T $proxyProxyPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-proxy-build/$proxyName-$version/$buildNumber/$projectName-$version.zip"
+curl -X PUT -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "$artifactoryURLForProxy/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
 echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
 }
 
