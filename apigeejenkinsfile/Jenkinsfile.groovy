@@ -113,5 +113,11 @@ return this;
 def deployProxy(props) {
   def gitBranch = "${env.BRANCH_NAME}"
   echo "${gitBranch}"
+  timestamps {
+    def allDeployEnvs = props.deploy
+    def bldver = props.build.version
+    echo "allDeployEnvs = ${allDeployEnvs}"
+    
+  }
 
 }
