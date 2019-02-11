@@ -57,7 +57,8 @@ def runjenkinsfile(){
                     }
                     
                     // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
-                    sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
+                    sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/bundle.sh;cd Build;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
+                    //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
                 }
 
             }
