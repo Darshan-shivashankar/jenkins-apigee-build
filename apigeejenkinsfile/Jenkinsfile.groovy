@@ -65,12 +65,6 @@ def runjenkinsfile(){
                     sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/bundle.sh;cd Build;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
                     //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
 
-                    //Publish to artifactory
-
-                    withCredentials([usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')]) {
-                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion}")
-                      //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion}")
-                    }
                 }
 
                 // Stage Upload to Artifactory
