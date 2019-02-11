@@ -30,24 +30,30 @@ proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
 uploadSharedFlow(){
 echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
-curl -sk -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip""
+curl -sk -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip"
 echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
 }
 
-uploadProxy(){
-	echo "Proxy Upload"
+uploadProxyFlow(){
+echo "************Deploying Proxy to Artifactory:" $projectName"-"$version
+curl -sk -u $username:$password -T $proxyProxyPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-proxy-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip"
+echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
 }
 
 main(){
-	echo "Type or project name is missing in the project.yaml"
+	echo "Type is missing in the project.yaml"
 }
 
-if [[ $buildType == "sharedflow" ]]
+response(){
+	echo "Upload stage is complete"
+}
+
+if [[ $type == "sharedflow" ]]
 	then
-		uploadSharedFlow
-elif [[ $buildType == "proxy" ]]
+		buildSharedFlow
+elif [[ $type == "proxy" ]]
 		then
-			uploadProxy
+			buildProxy
 else
 	main
 fi
@@ -56,5 +62,5 @@ if [[ $projectName != "" ]]
 	then
 		main
 else
-	main
+	response
 fi
