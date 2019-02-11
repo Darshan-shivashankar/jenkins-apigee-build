@@ -24,11 +24,10 @@ def runjenkinsfile(){
             def gitCred =  'cdc64b8b-f85a-4a29-8b36-6926d19f7473'
             def gitCloneURL = 'https://github.com/Darshan-shivashankar/jenkins-apigee-build.git'
             def version = props.build.version
-            def apiversion = "Jenkins Build Number ${proxyName}.${version}.${env.BUILD_NUMBER}"
+            def apiversion = "Jenkins Build Number-${proxyName}-${version}-${env.BUILD_NUMBER}"
             def workspaceDirectory = "${env.WORKSPACE}"
             def jobName = "${env.JOB_NAME}"
             def gitBranch = "${env.BRANCH_NAME}"
-            def buildNumber = "${env.BUILD_NUMBER}"
             def gitRepo = env.JOB_NAME.split('/')[0]
             def projectName = env.JOB_NAME.split('/')[0].split('-')[1]
             def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build'
@@ -52,7 +51,7 @@ def runjenkinsfile(){
                     // echo out the projects: Build number, Build Version and Apiversion Number
                     echo "Build Number is ${env.BUILD_NUMBER}"
                     echo "Build Version is $version"
-                    echo "Apiversion Number is {$apiversion}"
+                    echo "Apiversion Number is $apiversion"
 
                     dir('Build') {
                         git branch: 'master', credentialsId: gitCred, poll: false, url: gitCloneURL
@@ -70,6 +69,8 @@ def runjenkinsfile(){
 
                 // Stage Upload to Artifactory
                 stage('Upload') {
+
+                    def buildNumber = "${env.BUILD_NUMBER}"
 
                     // echo out the projects: GitHub Project, it repo and branch
                     echo("workspaceDirectory = $workspaceDirectory")
