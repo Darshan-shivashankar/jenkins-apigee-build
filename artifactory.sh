@@ -13,23 +13,19 @@ artifactoryURLForProxy=$6
 username=$7
 password=$8
 buildVersion=$9
+buildNumber=$10
+
 sharedflowTargetPath=$workspaceDirectory/src/sharedflows/$projectName
 proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
 uploadSharedFlow(){
-echo "************Deploying ProxyName to Artifactory:" $projectName"-"$buildVersion
-export "credentials=$username:$password"
-cd $sharedflowTargetPath/target
-curl -sk -u $credentials -T $proxyName"-"$buildVersion".zip" -X PUT "$artifactoryURLForSharedFlow/$apiversion/$proxyName-$apiversion.zip"
+echo "************Deploying sharedflow to Artifactory:" $projectName"-"$buildVersion
+curl -u$username:$password -T $sharedflowTargetPath/target/$projectName"-"$buildVersion".zip" "$artifactoryURLForSharedFlow/$proxyName-$buildVersion/$buildNumber"
 echo "************Deployed successfully to artifactory:" $proxyName-$buildVersion"-"$apiversion
 }
 
 uploadProxy(){
-echo "************Deploying ProxyName to Artifactory:" $projectName"-"$buildVersion
-export "credentials=$username:$password"
-cd $proxyProxyPath/target
-curl -sk -u $credentials -T $proxyName"-"$buildVersion".zip" -X PUT "$artifactoryURLForProxy/$apiversion/$proxyName-$apiversion.zip"
-echo "************Deployed successfully to artifactory:" $proxyName-$buildVersion"-"$apiversion
+
 }
 
 main(){

@@ -30,8 +30,8 @@ def runjenkinsfile(){
             def gitBranch = "${env.BRANCH_NAME}"
             def gitRepo = env.JOB_NAME.split('/')[0]
             def projectName = env.JOB_NAME.split('/')[0].split('-')[1]
-            def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/'
-            def artifactoryURLForProxy = 'http://demo.itorix.com:8081/artifactory/apigee-proxy-build/'
+            def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build'
+            def artifactoryURLForProxy = 'http://demo.itorix.com:8081/artifactory/apigee-proxy-build'
             def artifactoryCred =  '55152e81-eebf-4ce8-83a2-ef6b5f7666d5'
             def mavenHome = tool name: "Maven339", type: 'maven'
 
@@ -81,12 +81,12 @@ def runjenkinsfile(){
                     // echo out the projects: Build number, Build Version and Apiversion Number
                     echo "Build Number is ${env.BUILD_NUMBER}"
                     echo "Build Version is $buildVersion"
-                    echo "Apiversion Number is {$apiversion}"
+                    echo "Apiversion Number is $apiversion"
 
                     //Publish to artifactory
 
                     withCredentials([usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')]) {
-                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion}")
+                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion} ${env.BUILD_NUMBER}")
                       //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildVersion}")
                     }
                 }
