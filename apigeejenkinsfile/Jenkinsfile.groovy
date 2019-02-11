@@ -51,7 +51,7 @@ def runjenkinsfile(){
                     dir('Build') {
                         git branch: 'master', credentialsId: gitCred, poll: false, url: gitCloneURL
                         // call the script bundle.sh which will build the proxy/sharedflow files and upload them to artifactory. Note artifactory url is set in the script.
-                        sh("cd Build/apigeejenkinsfile;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
+                        sh("cd apigeejenkinsfile;./bundle.sh ${workspaceDirectory} ${projectName} ${buildType}")
                     }
                 }
 
