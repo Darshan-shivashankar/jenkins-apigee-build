@@ -123,6 +123,9 @@ def deployProxy(props) {
         echo "BRANCH_NAME ${deployenv.branch}"
         if(deployenv.branch == gitBranch){
           echo "${deployenv}"
+          stage("Deploy to ${env.env}") {
+           echo "Test"
+          }
         }
 
       }
