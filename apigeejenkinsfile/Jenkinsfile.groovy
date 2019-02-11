@@ -103,9 +103,9 @@ def runjenkinsfile() {
  } //END NODE
 
  // If deployproxy is set to true in the project.yaml file we will run the deployProject function
- if (props.deployProxy) {
-  deployProxy(props)
- }
+
+deployProxy(props)
+
 }
 return this;
 
