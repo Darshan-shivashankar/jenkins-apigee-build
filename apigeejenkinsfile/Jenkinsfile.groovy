@@ -144,7 +144,7 @@ def runjenkinsfile() {
                 node {
                   cleanWs notFailBuild: true
                   // call the script deploy-pipe.sh which will download from artifactory and deploy the proxy files to the Apigee Host. Note artifactory URL and Host URL is set in the script.
-                  
+
                 }
               }
             }
@@ -163,7 +163,7 @@ def runjenkinsfile() {
       def Approval(activeEnv) {
           try {
               timeout(time: 720, unit: 'MINUTES') {
-                inputMessage="Press deploy to proceed or Abort to stop the deployment to ${deployenv.env} . ", ok: 'Deploy'
+                input message: "Press deploy to proceed or Abort to stop the deployment to ${deployenv.env} . ", ok: 'Deploy'
               }
           }
           catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err) {
