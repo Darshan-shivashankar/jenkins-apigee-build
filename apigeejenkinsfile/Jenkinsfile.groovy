@@ -117,7 +117,13 @@ def deployProxy(props) {
     def allDeployEnvs = props.deploy
     def bldver = props.build.version
     echo "allDeployEnvs = ${allDeployEnvs}"
-    
+    try {
+      // For loop to go through Environments to Deploy
+      for (def deployenv: allDeployEnvs) {
+        echo "BRANCH_NAME ${deployenv.branch}"
+      }
+    }
+
   }
 
 }
