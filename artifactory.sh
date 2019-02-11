@@ -30,7 +30,7 @@ proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
 uploadSharedFlow(){
 echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
-curl -u$username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "$artifactoryURLForSharedFlow/$proxyName-$version/$buildNumber"
+curl -sk -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip""
 echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
 }
 
