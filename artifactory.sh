@@ -25,7 +25,7 @@ echo "************Deployed successfully to artifactory:" $proxyName-$buildVersio
 }
 
 uploadProxy(){
-
+	echo "Proxy Upload"
 }
 
 main(){
