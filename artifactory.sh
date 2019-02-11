@@ -48,17 +48,17 @@ response(){
 	echo "Upload stage is complete"
 }
 
-if [[ $type == "sharedflow" ]]
+if [[ $buildType == "sharedflow" ]]
 	then
-		buildSharedFlow
-elif [[ $type == "proxy" ]]
+		uploadSharedFlow
+elif [[ $buildType == "proxy" ]]
 		then
-			buildProxy
+			uploadProxyFlow
 else
 	main
 fi
 
-if [[ $projectName != "" ]]
+if [[ $buildType != "" ]]
 	then
 		main
 else

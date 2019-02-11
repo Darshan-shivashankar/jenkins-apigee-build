@@ -48,7 +48,7 @@ else
 	main
 fi
 
-if [[ $projectName != "" ]]
+if [[ $type != "" ]]
 	then
 		main
 else
