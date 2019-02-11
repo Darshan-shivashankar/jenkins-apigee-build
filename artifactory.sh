@@ -4,42 +4,44 @@ set -e
 
 autopath=`pwd`
 
-workspace=$1
+workspaceDirectory=$1
 projectName=$2
-type=$3
-sharedflowPomPath=$1/src/sharedflows/$2
-proxyPomPath=$1/src/gateway/$2
+buildType=$3
+apiversion=$4
+artifactoryURLForSharedFlow=$5
+artifactoryURLForProxy=$6
+username=$7
+password=$8
+buildVersion=$9
+sharedflowTargetPath=$workspaceDirectory/src/sharedflows/$projectName
+proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 
-buildSharedFlow(){
-	cd $autopath
-	echo "Maven Clean:"
-	mvn clean -X -f $sharedflowPomPath/pom.xml
-
-	cd $autopath
-	echo "Bundling SharedFlow:" $projectName
-	mvn package -X -f $sharedflowPomPath/pom.xml -Ptest
+uploadSharedFlow(){
+echo "************Deploying ProxyName to Artifactory:" $projectName"-"$buildVersion
+export "credentials=$username:$password"
+cd $sharedflowTargetPath/target
+curl -sk -u $credentials -T $proxyName"-"$buildVersion".zip" -X PUT "$artifactoryURLForSharedFlow/$apiversion/$proxyName-$apiversion.zip"
+echo "************Deployed successfully to artifactory:" $proxyName-$buildVersion"-"$apiversion
 }
 
-buildProxy(){
-	cd $autopath
-	echo "Maven Clean:"
-	mvn clean -X -f $sharedflowPomPath/pom.xml
-
-	cd $autopath
-	echo "Bundling Proxy:" $projectName
-	mvn package -X -f $proxyPomPath/pom.xml -Ptest
+uploadProxy(){
+echo "************Deploying ProxyName to Artifactory:" $projectName"-"$buildVersion
+export "credentials=$username:$password"
+cd $proxyProxyPath/target
+curl -sk -u $credentials -T $proxyName"-"$buildVersion".zip" -X PUT "$artifactoryURLForProxy/$apiversion/$proxyName-$apiversion.zip"
+echo "************Deployed successfully to artifactory:" $proxyName-$buildVersion"-"$apiversion
 }
 
 main(){
-	echo "Type is missing in the project.yaml"
+	echo "Type or project name is missing in the project.yaml"
 }
 
-if [[ $type == "sharedflow" ]]
+if [[ $buildType == "sharedflow" ]]
 	then
-		buildSharedFlow
-elif [[ $type == "proxy" ]]
+		uploadSharedFlow
+elif [[ $buildType == "proxy" ]]
 		then
-			buildProxy
+			uploadProxy
 else
 	main
 fi
