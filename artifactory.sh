@@ -25,6 +25,7 @@ echo "************Deployed successfully to artifactory:" $projectName-$version"-
 }
 
 uploadProxyFlow(){
+echo "************Build Number :"$artifactoryNumber
 echo "************Deploying Proxy to Artifactory:" $projectName"-"$version
 curl -sk -u admin:password -T $proxyProxyPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-proxy-build/$proxyName-$version/$buildNumber/$projectName-$version.zip"
 echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
