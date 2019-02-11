@@ -111,34 +111,7 @@ deployProxy(props)
 return this;
 
 def deployProxy(props) {
- def buildNumber = "${env.BUILD_NUMBER}"
- def chkInBranch = "${env.BRANCH_NAME}"
- timestamps {
-  // read project.yaml to setup def variables and tools
-  // function to get list of Deploy Environments
-  def allDeployEnvs = props.deploy
-  def bldver = props.build.version
-  def apiversion = "Jenkins Build Number: ${proxyName}-${version}-${env.BUILD_NUMBER}"
-  echo "allDeployEnvs = ${allDeployEnvs}"
-  try {
-   // For loop to go through Environments to Deploy
-   for (def env: allDeployEnvs) {
-    if (env.branch == chkInBranch) {
-     // Stage for each Environments to be Deploy too
-     stage("Deploy to ${env.env}") {
-      echo "Test"
-     }
-    }
-
-   }
-
- } catch (e) {
-  //If there was an exception thrown, the Deploy failed
-  currentBuild.result = "FAILED"
-  notifyFailed(email)
-  throw e
- }
-
-}
+  def gitBranch = "${env.BRANCH_NAME}"
+  echo "${gitBranch}"
 
 }
