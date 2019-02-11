@@ -13,7 +13,7 @@ artifactoryURLForSharedFlow=$6
 artifactoryURLForProxy=$7
 username=$8
 password=$9
-buildNumber=$10
+artifactoryNumber=$10
 
 sharedflowTargetPath=$workspaceDirectory/src/sharedflows/$projectName
 proxyProxyPath=$workspaceDirectory/src/gateway/$projectName

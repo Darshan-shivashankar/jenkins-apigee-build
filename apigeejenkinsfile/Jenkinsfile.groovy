@@ -24,7 +24,7 @@ def runjenkinsfile(){
             def gitCred =  'cdc64b8b-f85a-4a29-8b36-6926d19f7473'
             def gitCloneURL = 'https://github.com/Darshan-shivashankar/jenkins-apigee-build.git'
             def version = props.build.version
-            def apiversion = "Jenkins Build Number-${proxyName}-${version}-${env.BUILD_NUMBER}"
+            def apiversion = "Jenkins Build Number: ${proxyName}-${version}-${env.BUILD_NUMBER}"
             def workspaceDirectory = "${env.WORKSPACE}"
             def jobName = "${env.JOB_NAME}"
             def gitBranch = "${env.BRANCH_NAME}"
@@ -70,7 +70,7 @@ def runjenkinsfile(){
                 // Stage Upload to Artifactory
                 stage('Upload') {
 
-                    def buildNumber = "${env.BUILD_NUMBER}"
+                    def artifactoryNumber = "${env.BUILD_NUMBER}"
 
                     // echo out the projects: GitHub Project, it repo and branch
                     echo("workspaceDirectory = $workspaceDirectory")
@@ -88,7 +88,7 @@ def runjenkinsfile(){
                     //Publish to artifactory
 
                     withCredentials([usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')]) {
-                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${version} ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${buildNumber}")
+                      sh("ln -s ${gitRepo} ${proxyName};chmod a+x Build/artifactory.sh;cd Build;./artifactory.sh ${version} ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${artifactoryNumber}")
                       //sh("ln -s ${gitRepo} ${proxyName};chmod 0755 -R *;cd Build;./artifactory.sh ${workspaceDirectory} ${projectName} ${buildType} ${apiversion} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${username} ${password} ${version}")
                     }
                 }
