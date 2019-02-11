@@ -31,13 +31,13 @@ proxyProxyPath=$workspaceDirectory/src/gateway/$projectName
 uploadSharedFlow(){
 echo "************Deploying sharedflow to Artifactory:" $projectName"-"$version
 curl -sk -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip"
-echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
+echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
 }
 
 uploadProxyFlow(){
 echo "************Deploying Proxy to Artifactory:" $projectName"-"$version
-curl -sk -u $username:$password -T $proxyProxyPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-proxy-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip"
-echo "************Deployed successfully to artifactory:" $proxyName-$version"-"$apiversion
+curl -sk -u admin:password -T $proxyProxyPath/target/$projectName"-"$version".zip" -X PUT "http://demo.itorix.com:8081/artifactory/apigee-proxy-build/$proxyName-$version/$buildNumber/$proxyName-$version.zip"
+echo "************Deployed successfully to artifactory:" $projectName-$version"-"$apiversion
 }
 
 main(){
@@ -58,7 +58,7 @@ else
 	main
 fi
 
-if [[ $buildType != "" ]]
+if [[ $projectName != "" ]]
 	then
 		main
 else
