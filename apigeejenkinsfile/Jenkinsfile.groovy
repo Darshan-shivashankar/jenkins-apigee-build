@@ -103,14 +103,15 @@ def runjenkinsfile() {
  } //END NODE
 
  // If deployproxy is set to true in the project.yaml file we will run the deployProject function
-
+if (props.deployProxy) {
 deployProxy(props)
+}
 
 }
 return this;
 
 def deployProxy(props) {
- def buildNumber = env.BUILD_NUMBER
+ def buildNumber = "${env.BUILD_NUMBER}"
  def chkInBranch = "${env.BRANCH_NAME}"
  timestamps {
   // read project.yaml to setup def variables and tools
