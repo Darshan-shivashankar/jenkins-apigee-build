@@ -160,10 +160,10 @@ def runjenkinsfile() {
 
       }
 
-      def Approval(activeEnv) {
+      def Approval(apigeeEnv) {
           try {
               timeout(time: 720, unit: 'MINUTES') {
-                input message: "Press deploy to proceed or Abort to stop the deployment to ${deployenv.env} . ", ok: 'Deploy'
+                input message: "Press deploy to proceed or Abort to stop the deployment to ${apigeeEnv} . ", ok: 'Deploy'
               }
           }
           catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err) {
