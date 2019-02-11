@@ -51,7 +51,7 @@ fi
 
 if [[ $projectName != "" ]]
 	then
-		main
+		response
 else
 	response
 fi
