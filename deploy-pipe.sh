@@ -4,41 +4,65 @@ set -e
 
 autopath=`pwd`
 
-workspace=$1
-projectName=$2
-type=$3
-sharedflowPomPath=$1/src/sharedflows/$2
-proxyPomPath=$1/src/gateway/$2
-
 host=$1
 org=$2
 env=$3
 application=$4
 version=$5
-username=$6
-password=$7
+artifactoryUser=$6
+artifactoryPassword=$7
 buildNumber=$8
+workspace=$9
+buildType=${10}
+artifactoryURLForSharedFlow=${11}
+artifactoryURLForProxy=${12}
+apigeeUser=${13}
+apigeePassword=${14}
 
-artifactoryURLForProxy='http://demo.itorix.com:8081/artifactory/apigee-proxy-build'
 
-buildSharedFlow(){
-	cd $autopath
-	echo "Maven Clean:"
-	mvn clean -X -f $sharedflowPomPath/pom.xml
+sharedflowPomPath=$9/src/sharedflows/$4
+proxyPomPath=$9/src/gateway/$4
 
-	cd $autopath
-	echo "Bundling SharedFlow:" $projectName
-	mvn package -X -f $sharedflowPomPath/pom.xml -Ptest
+function downloadSharedFlowFile()  {
+
+  cd $sharedflowPomPath/target
+	rm -rf "$application-$version.zip"
+
+	echo "downloading the latest $application-$version bundle from Artifactory"
+	echo "download link - $artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
+	download=`wget "$artifactoryURLForSharedFlow/$application-$version/$buildNumber/$application-$version.zip"
+
+	chmod 755 "$application-$version.zip"
+
 }
 
-buildProxy(){
-	cd $autopath
-	echo "Maven Clean:"
-	mvn clean -X -f $sharedflowPomPath/pom.xml
+function downloadProxyFile()  {
+
+	cd $proxyPomPath/target
+	rm -rf "$application-$version.zip"
+
+	echo "downloading the latest $application-$version bundle from Artifactory"
+	echo "download link - $artifactoryURLForProxy/$application-$version/$buildNumber/$application-$version.zip"
+	download=`wget "$artifactoryURLForProxy/$application-$version/$buildNumber/$application-$version.zip"
+
+	chmod 755 "$application-$version.zip"
+
+}
+
+deploySharedFlow(){
 
 	cd $autopath
-	echo "Bundling Proxy:" $projectName
-	mvn package -X -f $proxyPomPath/pom.xml -Ptest
+	downloadSharedFlowFile
+	echo "Deploying SharedFlow:" $application
+	mvn apigee-enterprise:deploy -X -f $sharedflowPomPath/pom.xml -P$env -Dusername=$apigeeUser -Dpassword=$apigeePassword
+}
+
+deployProxy(){
+
+	cd $autopath
+	downloadProxyFile
+	echo "Deploying Proxy:" $application
+	mvn apigee-enterprise:deploy -X -f $proxyPomPath/pom.xml -P$env -Dusername=$apigeeUser -Dpassword=$apigeePassword
 }
 
 main(){
@@ -49,19 +73,19 @@ response(){
 	echo "Build stage is complete"
 }
 
-if [[ $type == "sharedflow" ]]
+if [[ $buildType == "sharedflow" ]]
 	then
-		buildSharedFlow
-elif [[ $type == "proxy" ]]
+		deploySharedFlow
+elif [[ $buildType == "proxy" ]]
 		then
-			buildProxy
+			deployProxy
 else
 	main
 fi
 
 if [[ $projectName != "" ]]
 	then
-		main
+		response
 else
 	response
 fi

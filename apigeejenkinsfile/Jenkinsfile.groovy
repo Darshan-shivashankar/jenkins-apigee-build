@@ -13,7 +13,6 @@ def runjenkinsfile() {
       def yamlPath = "${pwd()}/project.yaml"
       //checkout the project
       checkout scm
-
       echo "${yamlPath} used for this execution"
       sh("cat ${yamlPath}")
 
@@ -151,6 +150,11 @@ def runjenkinsfile() {
                   def projectName = env.JOB_NAME.split('/')[0].split('-')[1]
                   def artifactoryCred = '55152e81-eebf-4ce8-83a2-ef6b5f7666d5'
                   def artifactoryNumber = "${env.BUILD_NUMBER}"
+                  def apigeeCred = '6d127345-1cb4-4fdc-aa44-6d15bb096cc3'
+                  def mavenHome = tool name: "Maven339", type: 'maven'
+                  def workspaceDirectory = "${env.WORKSPACE}"
+                  def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build'
+                  def artifactoryURLForProxy = 'http://demo.itorix.com:8081/artifactory/apigee-proxy-build'
 
                   //Apigee Related
                   def apigeeOrg = "${deployenv.org}"
@@ -163,12 +167,7 @@ def runjenkinsfile() {
                       usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username')
                       usernamePassword(credentialsId: apigeeCred, passwordVariable: 'apigeepassword', usernameVariable: 'apigeeusername')
                       ]){
-                      def deployProxy = sh(script: "./Build/deploy-pipe-proxy.sh ${apigeeHost} ${apigeeOrg} ${apigeeEnvironment} ${apigeeProxy} ${version} ${username} ${password} ${artifactoryNumber}", returnStatus: true)
-                      if (deployProxy == 0) {
-                        println "deployProxy = SUCCESS"
-                      }else {
-                          println "deployProxy = FAILED"
-                        }
+                      sh("chmod a+x Build/deploy-pipe.sh;cd Build;./deploy-pipe.sh ${apigeeHost} ${apigeeOrg} ${apigeeEnvironment} ${apigeeProxy} ${version} ${username} ${password} ${artifactoryNumber} ${workspaceDirectory} ${buildType} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${apigeeusername} ${apigeepassword}")
                     }
                 }
               }
