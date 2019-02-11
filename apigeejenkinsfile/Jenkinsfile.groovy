@@ -124,7 +124,28 @@ def runjenkinsfile() {
             if (deployenv.branch == gitBranch) {
               echo "${deployenv}"
               stage("Deploy to ${deployenv.env}") {
-                echo "Test"
+                echo "Deploying Proxy and Sharedflow Process Started"
+                def apigeeEnv = "${deployenv.env}"
+                def approval = "${deployenv.approval}"
+                def apigeeOrg = "${deployenv.org}"
+                def apigeeHost = "${deployenv.host}"
+
+                if (apigeeEnv == null ) {
+                    echo 'Cannot deploy without apigee environment defined under project.yaml: env type define example type: Dev, type: QA, type: Prod '
+                    currentBuild.rawBuild.result = Result.ABORTED
+                    throw new hudson.AbortException('Cannot deploy without ENV type define example type: Dev, type: QA, type: Prod ')
+                }
+                //approval flow
+                if (deployenv.approval) {
+                  echo "Ok to deploy to ${deployenv.env}"
+                  Approval(apigeeEnv)
+                }
+                // Launch node
+                node {
+                  cleanWs notFailBuild: true
+                  // call the script deploy-pipe.sh which will download from artifactory and deploy the proxy files to the Apigee Host. Note artifactory URL and Host URL is set in the script.
+                  
+                }
               }
             }
 
@@ -137,4 +158,18 @@ def runjenkinsfile() {
 
         }
 
+      }
+
+      def Approval(activeEnv) {
+          try {
+              timeout(time: 720, unit: 'MINUTES') {
+                inputMessage="Press deploy to proceed or Abort to stop the deployment to ${deployenv.env} . ", ok: 'Deploy'
+              }
+          }
+          catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException err) {
+              ///If the Jod was ABORTED, send notify email and input for reason why pipeline was aborted
+              currentBuild.result = "ABORTED"
+              echo "Deploy timed out waiting for user approval"
+              throw err
+          }
       }
