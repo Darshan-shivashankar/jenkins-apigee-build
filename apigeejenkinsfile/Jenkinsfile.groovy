@@ -44,6 +44,7 @@ def runjenkinsfile() {
 					echo("gitRepo = $gitRepo")
 					echo("apiversion = $apiversion")
 					echo("buildType = $buildType")
+					echo("projectName = $projectName")
 
 					// echo out the projects: Build number, Build Version and Apiversion Number
 					echo "Build Number is ${env.BUILD_NUMBER}"
@@ -145,6 +146,7 @@ def deployProxy(props) {
 							node {
 								proxyName = props.build.name
 								buildType = props.build.type
+								sid = props.build.sid
 
 								def gitCred = 'cdc64b8b-f85a-4a29-8b36-6926d19f7473'
 								def gitBuildURL = 'https://github.com/Darshan-shivashankar/jenkins-apigee-build.git'
@@ -158,6 +160,8 @@ def deployProxy(props) {
 								def workspaceDirectory = "${env.WORKSPACE}"
 								def artifactoryURLForSharedFlow = 'http://demo.itorix.com:8081/artifactory/apigee-sharedflow-build'
 								def artifactoryURLForProxy = 'http://demo.itorix.com:8081/artifactory/apigee-proxy-build'
+                def repoName = env.JOB_NAME.split('/')[0]
+								def branchName = "${env.BRANCH_NAME}"
 
 								//Apigee Related
 								def apigeeOrg = "${deployenv.org}"
@@ -165,11 +169,23 @@ def deployProxy(props) {
 								def apigeeEnvironment = "${deployenv.env}"
 								def apigeeProxy = projectName
 
+								// echo out the projects: Build number, Build Version and Apiversion Number
+								echo "apigeeOrg is $apigeeOrg"
+								echo "apigeeHost is $apigeeHost"
+								echo "apigeeEnvironment is $apigeeEnvironment"
+								echo "apigeeProxy is $apigeeProxy"
+								echo "apigeeEnvironment is $apigeeEnvironment"
+								echo "artifactoryNumber is $artifactoryNumber"
+								echo "apiversion is $apiversion"
+								echo "version is $version"
+								echo "workspaceDirectory is $workspaceDirectory"
+								echo "Ignite sid is $sid"
+
 								// call the script deploy-pipe.sh which will download from artifactory and deploy the proxy files to the Apigee Host. Note artifactory URL and Host URL is set in the script.
 								withCredentials([
 									usernamePassword(credentialsId: artifactoryCred, passwordVariable: 'password', usernameVariable: 'username'),
 									usernamePassword(credentialsId: apigeeCred, passwordVariable: 'apigeepassword', usernameVariable: 'apigeeusername')
-								]){ sh("chmod a+x Build/deploy-pipe.sh;cd Build;./deploy-pipe.sh ${apigeeHost} ${apigeeOrg} ${apigeeEnvironment} ${apigeeProxy} ${version} ${username} ${password} ${artifactoryNumber} ${workspaceDirectory} ${buildType} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${apigeeusername} ${apigeepassword}") }
+								]){ sh("chmod a+x Build/deploy-pipe.sh;cd Build;./deploy-pipe.sh ${apigeeHost} ${apigeeOrg} ${apigeeEnvironment} ${apigeeProxy} ${version} ${username} ${password} ${artifactoryNumber} ${workspaceDirectory} ${buildType} ${artifactoryURLForSharedFlow} ${artifactoryURLForProxy} ${apigeeusername} ${apigeepassword} ${sid} ${repoName} ${branchName}") }
 							}
 						}
 					}

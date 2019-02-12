@@ -18,6 +18,11 @@ artifactoryURLForSharedFlow=${11}
 artifactoryURLForProxy=${12}
 apigeeUser=${13}
 apigeePassword=${14}
+sid=${15}
+repoName=${16}
+branchName=${17}
+
+status="success"
 
 
 sharedflowPomPath=$9/src/sharedflows/$4
@@ -61,6 +66,19 @@ deployProxy(){
 	downloadProxyFile
 	echo "Deploying Proxy:" $application
 	mvn apigee-enterprise:deploy -X -f $proxyPomPath/pom.xml -P$env -Dusername=$apigeeUser -Dpassword=$apigeePassword
+
+	if [[ "$?" -ne 0 ]] ; then
+	status="failed"
+  echo 'could not perform deploy'
+
+  fi
+
+	curl -X POST \
+	  https://darshanxshivashankar-eval-prod.apigee.net/notifications/v1/deploy \
+	  -H 'Content-Type: application/json' \
+	  -d '{"type":"proxy","proxyName":"${application}","version":"${version}","sid":"${sid}","deploymentEnvironment":"${env}","deploymentOrganization":"${org}","deploymentStatus":"${status}}","repoName":"${repoName}","branchName":"${branchName}"}'
+
+
 }
 
 main(){

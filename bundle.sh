@@ -23,7 +23,7 @@ buildSharedFlow(){
 buildProxy(){
 	cd $autopath
 	echo "Maven Clean:"
-	mvn clean -X -f $sharedflowPomPath/pom.xml
+	mvn clean -X -f $proxyPomPath/pom.xml
 
 	cd $autopath
 	echo "Bundling Proxy:" $projectName
