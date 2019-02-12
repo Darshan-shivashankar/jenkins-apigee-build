@@ -1,8 +1,5 @@
 #!groovy
 
-import groovy.json.JsonOutput
-import groovy.json.JsonBuilder
-
 def props = [: ]
 
 def runjenkinsfile() {
@@ -123,7 +120,8 @@ def deployProxy(props) {
 			for (def deployenv: allDeployEnvs) {
 				echo "BRANCH_NAME ${deployenv.branch}"
 				def featureBranch = "${deployenv.branch}"
-        def featureChk = featureBranch.toLowerCase().contains(feature.toLowerCase()
+				def featurepattern = 'feature'
+				def featureChk = featureBranch.toLowerCase().contains(featurepattern.toLowerCase())
 				if (featureChk) {
 					gitBranch = env.BRANCH_NAME.split('-')[0]
 					if (deployenv.branch == gitBranch) {
