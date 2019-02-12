@@ -27,7 +27,7 @@ echo "************Deployed successfully to artifactory*****************"
 uploadProxyFlow(){
 echo "************ Jenkins Build Number :"$artifactoryNumber
 echo "************Deploying Proxy to Artifactory:" $projectName"-"$version
-curl -X PUT -u $username:$password -T $sharedflowTargetPath/target/$projectName"-"$version".zip" "$artifactoryURLForProxy/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
+curl -X PUT -u $username:$password -T $proxyProxyPath/target/$projectName"-"$version".zip" "$artifactoryURLForProxy/$projectName-$version/$artifactoryNumber/$projectName-$version.zip"
 echo "************Deployed successfully to artifactory*****************"
 }
 
