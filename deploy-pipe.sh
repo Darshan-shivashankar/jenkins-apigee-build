@@ -73,12 +73,28 @@ deployProxy(){
 
   fi
 
-	curl -X POST \
-	  https://darshanxshivashankar-eval-prod.apigee.net/notifications/v1/deploy \
-	  -H 'Content-Type: application/json' \
-	  -d '{"type":"proxy","proxyName":"${application}","version":"${version}","sid":"${sid}","deploymentEnvironment":"${env}","deploymentOrganization":"${org}","deploymentStatus":"${status}}","repoName":"${repoName}","branchName":"${branchName}"}'
+	curl -i \
+	-H "Accept: application/json" \
+	-H "Content-Type:application/json" \
+	-X POST --data "$(generate_post_data)" "https://darshanxshivashankar-eval-prod.apigee.net/notifications/v1/deploy"
 
+}
 
+generate_post_data()
+{
+  cat <<EOF
+	{
+	    "type": "proxy",
+	    "proxyName": "${application}",
+	    "version": "${version}",
+	    "sid": "${sid}",
+	    "deploymentEnvironment": "${env}",
+	    "deploymentOrganization": "${org}",
+	    "deploymentStatus": "${status}",
+	    "repoName": "${repoName}",
+	    "branchName": "${branchName}"
+	}
+EOF
 }
 
 main(){
