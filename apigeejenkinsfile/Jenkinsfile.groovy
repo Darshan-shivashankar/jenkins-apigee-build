@@ -125,6 +125,7 @@ def deployProxy(props) {
 				def featureChk = featureBranch.toLowerCase().contains(featurepattern.toLowerCase())
 				if (featureChk) {
 					gitBranch = env.BRANCH_NAME.split('-')[0]
+          }
 					if (deployenv.branch == gitBranch) {
 						echo "${deployenv}"
 						stage("Deploy to ${deployenv.env}") {
@@ -189,7 +190,6 @@ def deployProxy(props) {
 							}
 						}
 					}
-				}
 			}
 		} catch (e) {
 			//If there was an exception thrown, the Deploy failed
